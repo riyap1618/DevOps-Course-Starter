@@ -13,7 +13,7 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    return session.get('items', _DEFAULT_ITEMS.copy())
+    return sorted(session.get('items', _DEFAULT_ITEMS.copy()), key=lambda item: item['status'], reverse=True)
 
 
 def get_item(id):
@@ -67,3 +67,12 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def remove_item(title):
+    existing_items = get_items()
+    updated_items = []
+    for existing_item in existing_items:
+        if title != existing_item['title']:
+            updated_items.append(existing_item)
+    session['items'] = updated_items
+    return title

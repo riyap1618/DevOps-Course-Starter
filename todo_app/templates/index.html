@@ -12,20 +12,54 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
+      <table>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+      </tr>
           {% for item in listOfItems %}
-            <li> {{ item.title }} </li>
+            <tr>
+                <td>{{ item['title'] }}</td>
+                <td>
+                    {% if item['status'] == 'Not Started' %}
+                    <p class="text-danger">{{ item['status'] }}</p>
+                    {% elif item['status'] == 'Started' %}
+                        <p class="text-warning">{{ item['status'] }}</p>
+                    {% elif item['status'] == 'Completed' %}
+                        <p class="text-success">{{ item['status'] }}</p>
+                    {% endif %}
+                </td>
+            </tr>
           {% endfor %}
+      </table>
       </ul>
     </div>
   </div>
 
-  <form action="" method="post" class="form">
+<!--    <form action="" method="post" class="form">
+  <div class="form">
+    <label for="title">Add new todo list item: </label>
+    <input type="text" name="title" id="title" required>
+  </div>
+  <div class="form">
+    <input type="submit" value="Submit!">
+  </div>
+</form> -->
+    <form action="" method="post" class="form">
     <div class="form">
-        <label for="title">Add new todo list item: </label>
+        <input type="radio" id="html" name="option" value="add">
+        <label for="add">Add</label><br>
+        <input type="radio" id="css" name="option" value="start">
+        <label for="start">Start</label><br>
+        <input type="radio" id="css" name="option" value="complete">
+        <label for="complete">Complete</label><br>
+        <input type="radio" id="javascript" name="option" value="delete">
+        <label for="delete">Delete</label>
+        <br><label for="title">Name of item: </label>
         <input type="text" name="title" id="title" required>
     </div>
-    <div class="form-example">
+    <div class="form">
         <input type="submit" value="Submit!">
     </div>
-  </form>
+    </form>
 {% endblock %}

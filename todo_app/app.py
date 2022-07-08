@@ -12,6 +12,22 @@ def index():
 
 @app.route('/', methods=['POST'])
 def add():
-    title = request.form.get('title')
-    item = add_item(title)
+    if request.form.get('option') == "add":
+        title = request.form.get('title')
+        item = add_item(title)
+    elif request.form.get('option') == 'start':
+        title = request.form.get('title')
+        for x in get_items():
+            if x['title'] == title:
+                new_item = { 'id': x['id'], 'title': title, 'status': 'Started' }
+                save_item(new_item)
+    elif request.form.get('option') == 'complete':
+        title = request.form.get('title')
+        for x in get_items():
+            if x['title'] == title:
+                new_item = { 'id': x['id'], 'title': title, 'status': 'Completed' }
+                save_item(new_item)
+    elif request.form.get('option') == 'delete':
+        title = request.form.get('title')
+        remove_item(title)
     return redirect(url_for('index'))
