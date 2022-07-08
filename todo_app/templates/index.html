@@ -19,14 +19,14 @@
       </tr>
           {% for item in listOfItems %}
             <tr>
-                <td>{{ item['title'] }}</td>
+                <td>{{ item.title }}</td>
                 <td>
-                    {% if item['status'] == 'Not Started' %}
-                    <p class="text-danger">{{ item['status'] }}</p>
-                    {% elif item['status'] == 'Started' %}
-                        <p class="text-warning">{{ item['status'] }}</p>
-                    {% elif item['status'] == 'Completed' %}
-                        <p class="text-success">{{ item['status'] }}</p>
+                    {% if item.status == 'Not Started' %}
+                    <p class="text-danger">{{ item.status }}</p>
+                    {% elif item.status == 'Started' %}
+                        <p class="text-warning">{{ item.status }}</p>
+                    {% elif item.status == 'Completed' %}
+                        <p class="text-success">{{ item.status }}</p>
                     {% endif %}
                 </td>
             </tr>
@@ -36,16 +36,7 @@
     </div>
   </div>
 
-<!--    <form action="" method="post" class="form">
-  <div class="form">
-    <label for="title">Add new todo list item: </label>
-    <input type="text" name="title" id="title" required>
-  </div>
-  <div class="form">
-    <input type="submit" value="Submit!">
-  </div>
-</form> -->
-    <form action="" method="post" class="form">
+  <form action="" method="post" class="form">
     <div class="form">
         <input type="radio" id="html" name="option" value="add">
         <label for="add">Add</label><br>
@@ -61,5 +52,5 @@
     <div class="form">
         <input type="submit" value="Submit!">
     </div>
-    </form>
+  </form>
 {% endblock %}
