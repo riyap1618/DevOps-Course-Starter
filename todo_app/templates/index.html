@@ -12,7 +12,20 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
+          {% for item in listOfItems %}
+            <li> {{ item.title }} </li>
+          {% endfor %}
       </ul>
     </div>
   </div>
+
+  <form action="" method="post" class="form">
+    <div class="form">
+        <label for="title">Add new todo list item: </label>
+        <input type="text" name="title" id="title" required>
+    </div>
+    <div class="form-example">
+        <input type="submit" value="Submit!">
+    </div>
+  </form>
 {% endblock %}
