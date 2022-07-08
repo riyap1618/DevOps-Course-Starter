@@ -15,4 +15,3 @@ def add():
     title = request.form.get('title')
     item = add_item(title)
     return redirect(url_for('index'))
-

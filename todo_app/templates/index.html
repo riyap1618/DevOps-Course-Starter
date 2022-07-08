@@ -13,9 +13,7 @@
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
           {% for item in listOfItems %}
-            <tr>
-                <th> <br>{{ item.title }} </th>
-            </tr>
+            <li> {{ item.title }} </li>
           {% endfor %}
       </ul>
     </div>
