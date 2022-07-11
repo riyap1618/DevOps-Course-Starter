@@ -1,40 +1,33 @@
-from flask import Flask
-from flask import render_template
-from flask import redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items
-from todo_app.data.session_items import add_item, save_item, remove_item
+from todo_app.data.session_items import get_items, add_item, save_item, remove_item, get_item
 
 app = Flask(__name__)
 app.config.from_object(Config())
 
-
 @app.route('/')
 def index():
-    print(get_items())
-    return render_template('index.html', listOfItems=get_items())
-    #return 'Hello World!'
+    list=get_items()
+    list = sorted(list, key=lambda item: item['status'], reverse=True)
+    return render_template('index.html', listOfItems=list)
 
-@app.route('/', methods=['POST'])
+@app.route('/add', methods=['POST'])
 def add():
-    if request.form.get('option') == "add":
-        title = request.form.get('title')
-        item = add_item(title)
-    elif request.form.get('option') == 'start':
-        title = request.form.get('title')
-        for x in get_items():
-            if x['title'] == title:
-                new_item = { 'id': x['id'], 'title': title, 'status': 'Started' }
-                save_item(new_item)
-    elif request.form.get('option') == 'complete':
-        title = request.form.get('title')
-        for x in get_items():
-            if x['title'] == title:
-                new_item = { 'id': x['id'], 'title': title, 'status': 'Completed' }
-                save_item(new_item)
-    elif request.form.get('option') == 'delete':
-        title = request.form.get('title')
-        remove_item(title)
-    return redirect("http://localhost:5000/")
+    title = request.form.get('title')
+    add_item(title)
+    return redirect(url_for('index'))
+
+@app.route('/complete', methods=['POST'])
+def complete():
+    item = get_item(request.form['completeButton'])
+    item['status'] = "Completed"
+    save_item(item)
+    return redirect(url_for('index'))
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    item = get_item(request.form['deleteButton'])
+    remove_item(item['title'])
+    return redirect(url_for('index'))
 

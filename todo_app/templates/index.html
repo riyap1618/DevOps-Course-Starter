@@ -16,18 +16,33 @@
       <tr>
         <th>Title</th>
         <th>Status</th>
+        <th>Action</th>
+        <th>Delete</th>
       </tr>
-          {% for x in listOfItems %}
+          {% for item in listOfItems %}
             <tr>
-                <td>{{ x['title'] }}</td>
+                <td>{{ item.title }}</td>
                 <td>
-                    {% if x['status'] == 'Not Started' %}
-                    <p class="text-danger">{{ x['status'] }}</p>
-                    {% elif x['status'] == 'Started' %}
-                        <p class="text-warning">{{ x['status'] }}</p>
-                    {% elif x['status'] == 'Completed' %}
-                        <p class="text-success">{{ x['status'] }}</p>
+                    {% if item.status == 'Not Started' %}
+                        <p class="text-danger">{{ item.status }}</p>
+                    {% elif item.status == 'Completed' %}
+                        <p class="text-success">{{ item.status }}</p>
                     {% endif %}
+                </td>
+                <td>
+
+                    <form action="{{ url_for("complete") }}" method="post">
+                        <button name="completeButton" class = "btn" type="submit"
+                            value={{ item.id }}>Complete
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ url_for("delete") }}" method="post">
+                            <button name="deleteButton" class = "btn" type="submit"
+                                value={{ item.id }}>Delete
+                            </button>
+                    </form>
                 </td>
             </tr>
           {% endfor %}
@@ -36,30 +51,13 @@
     </div>
   </div>
 
-<!--    <form action="" method="post" class="form">
-  <div class="form">
-    <label for="title">Add new todo list item: </label>
-    <input type="text" name="title" id="title" required>
-  </div>
-  <div class="form">
-    <input type="submit" value="Submit!">
-  </div>
-</form> -->
-    <form action="" method="post" class="form">
+  <form action="{{ url_for("add") }}" method="post" class="form">
     <div class="form">
-        <input type="radio" id="html" name="option" value="add">
-        <label for="add">Add</label><br>
-        <input type="radio" id="css" name="option" value="start">
-        <label for="start">Start</label><br>
-        <input type="radio" id="css" name="option" value="complete">
-        <label for="complete">Complete</label><br>
-        <input type="radio" id="javascript" name="option" value="delete">
-        <label for="delete">Delete</label>
         <br><label for="title">Name of item: </label>
-        <input type="text" name="title" id="title" required>
+        <input type="text" name="title" required>
     </div>
     <div class="form">
         <input type="submit" value="Submit!">
     </div>
-    </form>
+  </form>
 {% endblock %}
