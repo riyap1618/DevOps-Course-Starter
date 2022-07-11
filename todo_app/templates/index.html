@@ -24,9 +24,7 @@
                 <td>{{ item.title }}</td>
                 <td>
                     {% if item.status == 'Not Started' %}
-                    <p class="text-danger">{{ item.status }}</p>
-                    {% elif item.status == 'Started' %}
-                        <p class="text-warning">{{ item.status }}</p>
+                        <p class="text-danger">{{ item.status }}</p>
                     {% elif item.status == 'Completed' %}
                         <p class="text-success">{{ item.status }}</p>
                     {% endif %}
