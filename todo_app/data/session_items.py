@@ -67,3 +67,12 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def remove_item(title):
+    existing_items = get_items()
+    updated_items = []
+    for existing_item in existing_items:
+        if title != existing_item['title']:
+            updated_items.append(existing_item)
+    session['items'] = updated_items
+    return title
