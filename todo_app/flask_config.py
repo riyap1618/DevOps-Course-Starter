@@ -1,7 +1,5 @@
 import os
 
-import setuptools
-
 
 class Config:
     def __init__(self):

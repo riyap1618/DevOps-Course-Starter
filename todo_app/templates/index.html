@@ -25,7 +25,7 @@
             <tr>
                 <td>{{ item.name }}</td>
                 <td>
-                    {% if item.description != "" %}
+                    {% if item.description %}
                         <form action="{{ url_for("remove_description") }}" method="post" class="form">
                             {{ item.description }}
                             <button name="removeDescriptionButton" class = "btn" type="submit" style="font-weight: bold"
