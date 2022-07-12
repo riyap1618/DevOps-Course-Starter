@@ -15,27 +15,82 @@
       <table>
       <tr>
         <th>Title</th>
+        <th>Description</th>
         <th>Status</th>
+        <th>Due Date</th>
         <th>Action</th>
         <th>Delete</th>
       </tr>
           {% for item in listOfItems %}
             <tr>
-                <td>{{ item.title }}</td>
+                <td>{{ item.name }}</td>
                 <td>
-                    {% if item.status == 'Not Started' %}
+                    {% if item.description != "" %}
+                        <form action="{{ url_for("remove_description") }}" method="post" class="form">
+                            {{ item.description }}
+                            <button name="removeDescriptionButton" class = "btn" type="submit" style="font-weight: bold"
+                                value={{ item.id }}>X
+                            </button>
+                        </form>
+                    {% elif item.description == "" %}
+                        <form action="{{ url_for("add_description") }}" method="post" class="form">
+                            <div class="form">
+                                <input type="text" name="addDesc" required>
+                                <button name="descriptionButton" class = "btn" type="submit" style="font-weight: bold"
+                                value={{ item.id }}>Add
+                            </button>
+                            </div>
+                        </form>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.status == 'To Do' %}
                         <p class="text-danger">{{ item.status }}</p>
-                    {% elif item.status == 'Completed' %}
+                    {% elif item.status == 'Doing' %}
+                        <p class="text-warning">{{ item.status }}</p>
+                    {% elif item.status == 'Done' %}
                         <p class="text-success">{{ item.status }}</p>
                     {% endif %}
                 </td>
                 <td>
-
-                    <form action="{{ url_for("complete") }}" method="post">
-                        <button name="completeButton" class = "btn" type="submit"
-                            value={{ item.id }}>Complete
-                        </button>
-                    </form>
+                    {% if item.due != None %}
+                        <form action="{{ url_for("remove_date") }}" method="post" class="form">
+                            {{ item.due[:10] }}
+                            <button name="removeDateButton" class = "btn" type="submit" style="font-weight: bold"
+                                value={{ item.id }}>X
+                            </button>
+                        </form>
+                    {% elif item.due == None %}
+                        <form action="{{ url_for("add_date") }}" method="post" class="form">
+                            <div class="form">
+                                 <input type="date" data-date-format="dd/mm/yyyy" name="addDate">
+                                 <button name="dateButton" class = "btn" type="submit" style="font-weight: bold"
+                                    value={{ item.id }}>Add
+                                 </button>
+                            </div>
+                        </form>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.status == 'To Do' %}
+                        <form action="{{ url_for("start") }}" method="post">
+                            <button name="startButton" class = "btn" type="submit"
+                                value={{ item.id }}>Start
+                            </button>
+                        </form>
+                    {% elif item.status == 'Doing' %}
+                        <form action="{{ url_for("complete") }}" method="post">
+                            <button name="completeButton" class = "btn" type="submit"
+                                value={{ item.id }}>Complete
+                            </button>
+                        </form>
+                    {% elif item.status == 'Done' %}
+                         <form action="{{ url_for("redo") }}" method="post">
+                            <button name="redoButton" class = "btn" type="submit"
+                                value={{ item.id }}>Re-Do
+                            </button>
+                        </form>
+                    {% endif %}
                 </td>
                 <td>
                     <form action="{{ url_for("delete") }}" method="post">
@@ -51,13 +106,21 @@
     </div>
   </div>
 
+  <h2>Add new item</h2>
   <form action="{{ url_for("add") }}" method="post" class="form">
     <div class="form">
         <br><label for="title">Name of item: </label>
         <input type="text" name="title" required>
+        <label for="desc">Description: </label>
+        <input type="text" name="desc">
+        <label for="date">Date: </label>
+        <label>
+            <input type="date" data-date-format="dd/mm/yyyy" name="date">
+        </label>
     </div>
     <div class="form">
         <input type="submit" value="Submit!">
     </div>
   </form>
+
 {% endblock %}
