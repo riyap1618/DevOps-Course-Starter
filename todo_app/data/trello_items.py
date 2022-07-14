@@ -10,6 +10,10 @@ class Item:
         self.due = due
         self.status = status
 
+    def __eq__(self, other):
+        return self.id == other.id and self.name == other.name and self.description == other.description \
+        and self.due == other.due and self.status == other.status
+
     @classmethod
     def from_trello_card(cls, card, list):
         return cls(card['id'], card['name'], card['desc'], card['badges']['due'], list['name'])
