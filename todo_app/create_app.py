@@ -10,8 +10,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('index.html', listOfItems=ViewModel(get_all_cards()),
-                               listOfListNames=['todo_items', 'doing_items', 'done_items'])
+        return render_template('index.html', listOfItems=ViewModel(get_all_cards()))
 
     @app.route('/add', methods=['POST'])
     def add():

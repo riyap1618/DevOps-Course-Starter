@@ -5,7 +5,8 @@ from time import sleep
 from selenium import webdriver
 from dotenv import load_dotenv
 from todo_app import create_app
-
+from selenium.webdriver.firefox.options import Options
+import requests
 
 @pytest.fixture(scope='module')
 def app_with_temp_board():
@@ -37,23 +38,28 @@ def app_with_temp_board():
 
 def create_trello_board():
     # TODO Create a new board in Trello and return the id
-    pass
+    url = f"https://api.trello.com/1/boards/?name=E2ETest&key={os.getenv('KEY')}&token={os.getenv('TOKEN')}&idOrganization=userworkspace30763063&prefs_permissionLevel=public"
+    r = requests.post(url).json()
+    return r['id']
 
 
 def delete_trello_board(board_id):
     # TODO Delete the Trello board with id board_id
-    pass
+    url = "https://api.trello.com/1/boards/" + board_id
+    parameters = {'key': os.getenv('KEY'), 'token': os.getenv('TOKEN')}
+    r = requests.delete(url, params=parameters)
 
 
 @pytest.fixture(scope="module")
 def driver():
-    with webdriver.Firefox() as driver:
-        print("works")
+    options = Options()
+    options.binary_location = r"C:\Program Files\Mozilla Firefox\firefox.exe"
+    with webdriver.Firefox(options=options) as driver:
         yield driver
 
 
 def test_task_journey(driver, app_with_temp_board):
-    driver.get('https://localhost:5000/')
+    driver.get('http://localhost:5000/')
 
-    #assert driver.title == 'To-Do App'
+    assert driver.title == 'To-Do App'
 
