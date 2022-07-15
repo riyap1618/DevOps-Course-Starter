@@ -52,3 +52,20 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Testing
+To test the app run:
+```bash
+$ pytest test_sort.py
+```
+This will run all of the tests and if they have run successfully you will get a green message telling you how many of the tests passed.
+
+To run a specific test:
+```bash
+$ pytest test_sort.py::{{name_of_test}}
+```
+To run the integration test:
+```bash
+$ poetry run pytest todo_app/test_integration.py
+```
+This should run the integration test and say passed if successful.

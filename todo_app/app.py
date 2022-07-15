@@ -2,14 +2,14 @@ from flask import Flask, render_template, redirect, request, url_for
 from todo_app.flask_config import Config
 from todo_app.data.trello_items import get_all_cards, add_card, start_card, complete_card, delete_card, redo_card, \
     change_description, change_date
-
+from todo_app.view_model import ViewModel
 app = Flask(__name__)
 app.config.from_object(Config())
 
 
 @app.route('/')
 def index():
-    return render_template('index.html', listOfItems=get_all_cards())
+    return render_template('index.html', listOfItems=ViewModel(get_all_cards()))
 
 
 @app.route('/add', methods=['POST'])
@@ -64,3 +64,4 @@ def remove_description():
 def remove_date():
     change_date(request.form['removeDateButton'], "")
     return redirect(url_for('index'))
+
